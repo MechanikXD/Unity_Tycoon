@@ -18,7 +18,7 @@ namespace Core.Behaviour.SingletonBehaviour {
             if (dontDestroyOnLoad) DontDestroyOnLoad(gameObject);
         }
 
-        protected void OnDestroy() {
+        protected virtual void OnDestroy() {
             if (Instance == this) {
                 Instance = null;
             }
