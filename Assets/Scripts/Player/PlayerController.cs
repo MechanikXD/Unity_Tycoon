@@ -1,3 +1,4 @@
+using Player.Interactable;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -50,6 +51,10 @@ namespace Player
             var scrollDelta = delta.Get<float>() * (_scrollSpeed * Time.deltaTime);
             UpdateScroll(scrollDelta);
         }
+
+        public void OnPrimaryAction() => _interaction.PrimaryAction();
+        
+        public void OnSecondaryAction() => _interaction.SecondaryAction();
 
         private void Initialize()
         {
