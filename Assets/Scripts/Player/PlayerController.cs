@@ -1,3 +1,4 @@
+using Player.Interactable;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,6 +52,10 @@ namespace Player
             UpdateScroll(scrollDelta);
         }
 
+        public void OnPrimaryAction() => _interaction.PrimaryAction();
+        
+        public void OnSecondaryAction() => _interaction.SecondaryAction();
+
         private void Initialize()
         {
             // TODO: Placeholders
@@ -97,7 +102,7 @@ namespace Player
         {
             var ray = _camera.ScreenPointToRay(_mousePosition);
 
-            if (Physics.Raycast(ray, out var hit, _groundMask))
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _groundMask))
             {
                 _interaction.transform.position = hit.point;
             }
