@@ -102,7 +102,7 @@ namespace Player
         {
             var ray = _camera.ScreenPointToRay(_mousePosition);
 
-            if (Physics.Raycast(ray, out var hit, _groundMask))
+            if (Physics.Raycast(ray, out var hit, Mathf.Infinity, _groundMask))
             {
                 _interaction.transform.position = hit.point;
             }

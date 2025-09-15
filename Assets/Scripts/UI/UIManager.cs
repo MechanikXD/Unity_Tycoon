@@ -12,7 +12,6 @@ namespace UI {
         [SerializeField] private CanvasView[] _sceneHudCanvases;
 
         private Stack<CanvasView> _uiStack;
-        private Action _unsubscribeAction;
 
         protected override void Awake() {
             ToSingleton(false);
@@ -20,8 +19,6 @@ namespace UI {
             SortCanvases();
             DisableCanvases();
         }
-
-        private void OnDisable() => _unsubscribeAction();
 
         public void EnterUICanvas<T>() where T : CanvasView {
             if (_uiStack.Count > 0) _uiStack.Peek().Hide();
