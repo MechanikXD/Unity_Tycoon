@@ -26,7 +26,8 @@ namespace Player.Interactable.States
             if (!_ghostBuilding.CanBePlaced) return;
 
             // TODO: BAD. Use object pooling
-            Object.Instantiate(_ghostBuilding, _ghostBuilding.transform.position, Quaternion.identity);
+            var newInstance = Object.Instantiate(_ghostBuilding, _ghostBuilding.transform.position, Quaternion.identity);
+            newInstance.OnBuild();
         }
 
         public override void SecondaryAction()

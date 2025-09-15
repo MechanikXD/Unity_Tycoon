@@ -13,9 +13,9 @@ namespace Player.Interactable
             InitializeStateMachine();
         }
 
-        public static void EnterBuildingMode()
+        public static void EnterState<T>() where T : PlayerState
         {
-            _stateMachine.ChangeState<BuildingState>();
+            _stateMachine.ChangeState<T>();
         }
 
         public void PrimaryAction()
@@ -50,6 +50,7 @@ namespace Player.Interactable
             _stateMachine.Initialize(new NormalState(_stateMachine, transform));
             
             _stateMachine.AddState(new BuildingState(_stateMachine, transform));
+            _stateMachine.AddState(new ObjectRepositionState(_stateMachine, transform));
         }
     }
 }

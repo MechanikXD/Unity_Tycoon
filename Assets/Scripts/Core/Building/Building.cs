@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Player.Interactable;
+using UI;
+using UI.HUD.View;
 using UnityEngine;
 
 namespace Core.Building
@@ -12,6 +14,12 @@ namespace Core.Building
         public bool CanBePlaced { get; private set; }
 
         public float HalfHeight => _halfHeight;
+
+        public abstract void OnBuild();
+        public abstract void OnRepositionStart();
+        public abstract void OnRepositionEnd();
+        public abstract void OnRemove();
+        public abstract void OnUpgrade();
 
         private void Awake()
         {
@@ -38,8 +46,12 @@ namespace Core.Building
             }
         }
 
-        public abstract void PrimaryAction();
+        public virtual void PrimaryAction()
+        {
+            BuildInteractionView.SetBuilding(this);
+            UIManager.Instance.EnterHUDCanvas<BuildInteractionView>();
+        }
 
-        public abstract void SecondaryAction();
+        public virtual void SecondaryAction() {}
     }
 }

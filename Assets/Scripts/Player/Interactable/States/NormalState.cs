@@ -1,5 +1,7 @@
 ﻿using Core.Behaviour.PlayerStateMachine;
 using JetBrains.Annotations;
+using UI;
+using UI.HUD.View;
 using UnityEngine;
 
 namespace Player.Interactable.States
@@ -9,7 +11,12 @@ namespace Player.Interactable.States
         [CanBeNull] private ISceneInteractable _currentlySelected;
         
         public NormalState(PlayerStateMachine sm, Transform trigger) : base(sm, trigger) { }
-        
+
+        public override void ExitState()
+        {
+            UIManager.Instance.ExitHudCanvas<BuildInteractionView>();
+        }
+
         public override void PrimaryAction()
         {
             _currentlySelected?.PrimaryAction();
@@ -17,7 +24,14 @@ namespace Player.Interactable.States
 
         public override void SecondaryAction()
         {
-            _currentlySelected?.SecondaryAction();
+            if (_currentlySelected != null)
+            {
+                _currentlySelected.SecondaryAction();
+            }
+            else
+            {
+                UIManager.Instance.ExitHudCanvas<BuildInteractionView>();
+            }
         }
 
         public override void InteractableTriggerEnter(ISceneInteractable other)

@@ -20,7 +20,7 @@ namespace UI.BuildingTab
         public override void OnPointerClick(PointerEventData eventData)
         {
             BuildingState.CurrentlySelected = _building;
-            InteractionTrigger.EnterBuildingMode();
+            InteractionTrigger.EnterState<BuildingState>();
         }
     }
 }

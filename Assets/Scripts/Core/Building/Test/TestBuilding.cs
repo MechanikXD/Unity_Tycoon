@@ -1,17 +1,32 @@
-﻿using UnityEngine;
+﻿using UI;
+using UI.HUD.View;
+using UnityEngine;
 
 namespace Core.Building.Test
 {
     public class TestBuilding : Building
     {
-        public override void PrimaryAction()
+        private int _buildingLevel;
+        
+        public override void OnBuild() 
         {
-            Debug.Log($"Primary action performed on {gameObject.name}");
+            _buildingLevel = 0;
         }
 
-        public override void SecondaryAction()
+        public override void OnRepositionStart() { }
+
+        public override void OnRepositionEnd() { }
+
+        public override void OnRemove()
         {
-            Debug.Log($"Secondary action performed on {gameObject.name}");
+            UIManager.Instance.ExitHudCanvas<BuildInteractionView>();
+            Destroy(gameObject);
+        }
+
+        public override void OnUpgrade()
+        {
+            _buildingLevel++;
+            Debug.Log($"Building was upgraded to {_buildingLevel} level!");
         }
     }
 }
