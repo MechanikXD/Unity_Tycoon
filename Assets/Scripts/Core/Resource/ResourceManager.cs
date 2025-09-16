@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Core.Behaviour.SingletonBehaviour;
+using Core.Behaviour.Singleton;
 using UnityEngine;
 
 namespace Core.Resource
@@ -17,6 +17,9 @@ namespace Core.Resource
         private Coroutine _resourceUpdateCoroutine;
         private bool _coroutineCancellationToken;
 
+        public int MaxPopulation => _maxPopulation;
+        public int WorkingPopulation => _workingPeople;
+
         public static event Action<ResourceBundle> ResourceUpdated;
 
         protected override void Awake()
@@ -28,7 +31,7 @@ namespace Core.Resource
         
         public bool HasEnoughResources(ResourceBundle resources)
         {
-            if (resources.People > _maxPopulation - _workingPeople) return false;
+            if (_maxPopulation - _workingPeople < resources.People) return false;
 
             return _playerResources.Gold >= resources.Gold &&
                    _playerResources.Wood >= resources.Wood &&
@@ -41,14 +44,15 @@ namespace Core.Resource
         {
             if (!HasEnoughResources(resources)) return;
 
-            _playerResources -= resources;
             _workingPeople += resources.People;
+            _playerResources -= resources;
             
             ResourceUpdated?.Invoke(_playerResources);
         }
 
         public void AddResources(ResourceBundle resources)
         {
+            _workingPeople -= resources.People;
             _playerResources += resources;
 
             ResourceUpdated?.Invoke(_playerResources);

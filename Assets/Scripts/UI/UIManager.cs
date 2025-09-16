@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Behaviour.SingletonBehaviour;
+using Core.Behaviour.Singleton;
 using UnityEngine;
 
 namespace UI {

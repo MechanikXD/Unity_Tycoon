@@ -12,6 +12,7 @@ namespace Core.Building
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private Color _notPlaceableColor = Color.red;
         private Color _originalColor;
+        [SerializeField] private string _description;
 
         [Space]
         [SerializeField] private bool _isSingleton;
@@ -26,16 +27,16 @@ namespace Core.Building
         
         private static LayerMask _groundLayer;
         private HashSet<int> _objectsInRange;
+        
         public bool CanBePlaced { get; private set; }
         public bool IsSingleton => _isSingleton;
-
         public float HalfHeight => _halfHeight;
+        public string Description => _description;
+        public bool CanBeUpgraded => _currentUpgradeLevel < _upgradeCosts.Length;
+        public virtual bool CanBeDestroyed => true; 
 
         public virtual void Build()
         {
-            UpdateGhostColor(default);
-            if (!CanBePlaced) return;
-            
             ResourceManager.ResourceUpdated -= UpdateGhostColor;
             ResourceManager.Instance.Spend(_buildCost);
             _resourcesSpent += _buildCost;
@@ -57,8 +58,12 @@ namespace Core.Building
             _isStationary = true;
         }
 
-        public virtual void Destroy()
+        protected virtual void BeforeDestroy() { }
+        
+        public void Destroy()
         {
+            if (!CanBeDestroyed) return;
+            
             var refund = new ResourceBundle
             {
                 Gold = (int)(_resourcesSpent.Gold * _refundPercent),
@@ -68,11 +73,15 @@ namespace Core.Building
                 People = _resourcesSpent.People
             };
             ResourceManager.Instance.AddResources(refund);
+            BuildingManager.Instance.Remove(this);
+            UIManager.Instance.ExitHudCanvas<BuildInteractionView>();
+            BeforeDestroy();
+            Destroy(gameObject);
         }
 
         public virtual void Upgrade()
         {
-            if (_currentUpgradeLevel >= _upgradeCosts.Length) return;
+            if (!CanBeUpgraded) return;
             
             var upgradeCosts = _upgradeCosts[_currentUpgradeLevel];
             if (ResourceManager.Instance.HasEnoughResources(upgradeCosts))
@@ -83,7 +92,7 @@ namespace Core.Building
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _objectsInRange = new HashSet<int>();
             _originalColor = _renderer.material.color;
@@ -122,10 +131,14 @@ namespace Core.Building
         private void UpdateGhostColor(ResourceBundle _)
         {
             if (_isStationary) return;
-
+            
             CanBePlaced = ResourceManager.Instance.HasEnoughResources(_buildCost) &&
                           _objectsInRange.Count == 0;
-            CanBePlaced = IsSingleton ? !BuildingManager.Instance.HasSingleton(GetType()) : CanBePlaced;
+            
+            if (IsSingleton && BuildingManager.Instance.HasSingleton(GetType()))
+            {
+                CanBePlaced = false;
+            }
             
             _renderer.material.color = CanBePlaced ? _originalColor : _notPlaceableColor;
         }

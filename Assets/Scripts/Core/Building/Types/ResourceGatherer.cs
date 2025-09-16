@@ -7,7 +7,7 @@ namespace Core.Building.Types
     {
         [SerializeField] private ResourceType _type;
         [SerializeField] private int _amount;
-        [SerializeField] private float _gatherIncreasePerLevel;
+        [SerializeField] private float _gatherMultiplierPerLevel = 2f;
 
         public override void Build()
         {
@@ -15,28 +15,15 @@ namespace Core.Building.Types
             ResourceManager.Instance.AddIncome(_type, _amount);
         }
 
-        public override void RepositionStart()
-        {
-            base.RepositionStart();
-            ResourceManager.Instance.AddIncome(_type, -_amount);
-        }
-
-        public override void RepositionEnd()
-        {
-            base.RepositionStart();
-            ResourceManager.Instance.AddIncome(_type, _amount);
-        }
-
         public override void Upgrade()
         {
             base.Upgrade();
             ResourceManager.Instance.AddIncome(_type, _amount);
-            _amount = (int)(_amount * _gatherIncreasePerLevel);
+            _amount = (int)(_amount * _gatherMultiplierPerLevel);
         }
 
-        public override void Destroy()
+        protected override void BeforeDestroy()
         {
-            base.Destroy();
             ResourceManager.Instance.AddIncome(_type, -_amount);
         }
     }
