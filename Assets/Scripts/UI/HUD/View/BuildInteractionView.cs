@@ -14,19 +14,27 @@ namespace UI.HUD.View
         private Action _eventUnSubscriber;
         [SerializeField] private RectTransform _contentTransform;
         [SerializeField] private Vector3 _offset;
+
+        private static Button _specialInteraction; 
         
+        [SerializeField] private Button _specialInteractionButton;
         [SerializeField] private Button _upgradeButton;
         [SerializeField] private Button _repositionButton;
         [SerializeField] private Button _destroyButton;
         [SerializeField] private TMP_Text _textField;
 
-        // TODO: This should be done via UIManager
+        private void Awake()
+        {
+            _specialInteraction = _specialInteractionButton;
+            _specialInteractionButton.gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
             void UpgradeProxy()
             {
-                _currentBuilding.OnUpgrade();
+                _currentBuilding.Upgrade();
+                if (!_currentBuilding.CanBeUpgraded) _upgradeButton.interactable = false;
             }
             
             void RepositionBuild()
@@ -37,7 +45,7 @@ namespace UI.HUD.View
 
             void RemoveProxy()
             {
-                _currentBuilding.OnRemove();
+                _currentBuilding.Destroy();
             }
             
             _upgradeButton.onClick.AddListener(UpgradeProxy);
@@ -62,9 +70,20 @@ namespace UI.HUD.View
             _currentBuilding = building;
         }
 
+        public static void EnableSpecialInteractionButton(Action listener)
+        {
+            _specialInteraction.gameObject.SetActive(true);
+            _specialInteraction.onClick.AddListener(() => listener());
+        }
+
         public override void Show()
         {
             _contentTransform.position = Input.mousePosition + _offset;
+            
+            _textField.SetText(_currentBuilding.Description);
+            _destroyButton.interactable = _currentBuilding.CanBeDestroyed;
+            _upgradeButton.interactable = _currentBuilding.CanBeUpgraded;
+            
             _thisCanvas.enabled = true;
         }
 
@@ -72,6 +91,12 @@ namespace UI.HUD.View
         {
             _currentBuilding = null;
             _thisCanvas.enabled = false;
+
+            if (_specialInteractionButton.gameObject.activeInHierarchy)
+            {
+                _specialInteractionButton.onClick.RemoveAllListeners();
+                _specialInteractionButton.gameObject.SetActive(false);
+            }
         }
     }
 }

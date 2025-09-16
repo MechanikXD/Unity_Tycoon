@@ -19,6 +19,7 @@ namespace Player.Interactable.States
             var position = ghostTransform.localPosition;
             position.y = CurrentlySelected.HalfHeight;
             ghostTransform.localPosition = position;
+            _ghostBuilding.RepositionStart();
         }
 
         public override void PrimaryAction()
@@ -27,7 +28,7 @@ namespace Player.Interactable.States
 
             // TODO: BAD. Use object pooling
             var newInstance = Object.Instantiate(_ghostBuilding, _ghostBuilding.transform.position, Quaternion.identity);
-            newInstance.OnBuild();
+            newInstance.Build();
         }
 
         public override void SecondaryAction()

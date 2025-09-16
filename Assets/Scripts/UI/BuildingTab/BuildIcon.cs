@@ -10,10 +10,7 @@ namespace UI.BuildingTab
     {
         [SerializeField] private Building _building;
         
-        public override void OnPointerEnter(PointerEventData eventData)
-        {
-            Debug.Log($"About to select {gameObject.name}");
-        }
+        public override void OnPointerEnter(PointerEventData eventData) { }
 
         public override void OnPointerExit(PointerEventData eventData) { }
 

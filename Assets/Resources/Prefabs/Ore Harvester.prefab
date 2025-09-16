@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8058411966175114094
+--- !u!1 &3794688440676555361
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,26 +8,26 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7278505755966941131}
-  - component: {fileID: 5066408758752440520}
-  - component: {fileID: 2790676773842630494}
-  - component: {fileID: 5070797921809298532}
-  - component: {fileID: 916919510823314401}
-  - component: {fileID: 2488712565000000793}
-  m_Layer: 2
-  m_Name: Cube
+  - component: {fileID: 2290705991344646971}
+  - component: {fileID: 2101764154696690442}
+  - component: {fileID: 4367348421232912804}
+  - component: {fileID: 3722772446992452757}
+  - component: {fileID: 7017134823298643248}
+  - component: {fileID: 7760528422906422418}
+  m_Layer: 0
+  m_Name: Ore Harvester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7278505755966941131
+--- !u!4 &2290705991344646971
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8058411966175114094}
+  m_GameObject: {fileID: 3794688440676555361}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -36,21 +36,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &5066408758752440520
+--- !u!33 &2101764154696690442
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8058411966175114094}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &2790676773842630494
+  m_GameObject: {fileID: 3794688440676555361}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &4367348421232912804
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8058411966175114094}
+  m_GameObject: {fileID: 3794688440676555361}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -86,13 +86,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5070797921809298532
-BoxCollider:
+--- !u!136 &3722772446992452757
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8058411966175114094}
+  m_GameObject: {fileID: 3794688440676555361}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -104,29 +104,61 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &916919510823314401
+--- !u!114 &7017134823298643248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8058411966175114094}
+  m_GameObject: {fileID: 3794688440676555361}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24ac2bbe5d314bb5a0e7b27b5366e34c, type: 3}
+  m_Script: {fileID: 11500000, guid: 85b7b11b10ad46a08f234881bd217284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _halfHeight: 0.5
---- !u!54 &2488712565000000793
+  _renderer: {fileID: 4367348421232912804}
+  _notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
+  _description: This thing will harvest ore
+  _isSingleton: 0
+  _halfHeight: 1
+  _buildCost:
+    _gold: 500
+    _wood: 25
+    _stone: 50
+    _ore: 0
+    _people: 5
+  _upgradeCosts:
+  - _gold: 1000
+    _wood: 50
+    _stone: 100
+    _ore: 5
+    _people: 5
+  - _gold: 2000
+    _wood: 75
+    _stone: 75
+    _ore: 10
+    _people: 5
+  - _gold: 3000
+    _wood: 100
+    _stone: 100
+    _ore: 25
+    _people: 10
+  _refundPercent: 0.5
+  _type: 3
+  _amount: 5
+  _gatherIncreasePerLevel: 2
+--- !u!54 &7760528422906422418
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8058411966175114094}
+  m_GameObject: {fileID: 3794688440676555361}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0

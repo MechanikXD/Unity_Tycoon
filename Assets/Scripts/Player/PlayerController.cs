@@ -13,7 +13,7 @@ namespace Player
         [SerializeField] private float _moveSpeed = 10f;
 
         // Left, Top, Right, Bottom
-        private Vector4 _moveBounds;
+        public static Vector4 MoveBounds { get; set; }
 
         [SerializeField] private float _scrollSpeed = 3f;
         [SerializeField] private Vector2 _scrollBounds = new Vector2(-10f, 10f);
@@ -58,9 +58,6 @@ namespace Player
 
         private void Initialize()
         {
-            // TODO: Placeholders
-            _moveBounds = new Vector4(-50, 50, 50, -50);
-
             _mousePosition = Input.mousePosition;
             Cursor.lockState = CursorLockMode.Confined;
         }
@@ -71,27 +68,32 @@ namespace Player
 
             if (_moveVector != Vector2.zero)
             {
-                currentPosition.x += _moveVector.x * _moveSpeed * Time.deltaTime;
-                currentPosition.z += _moveVector.y * _moveSpeed * Time.deltaTime;
+                var nextXPosition = currentPosition.x + _moveVector.x * _moveSpeed * Time.deltaTime;
+                var nextYPosition = currentPosition.z + _moveVector.y * _moveSpeed * Time.deltaTime;
+                
+                if (nextXPosition >= MoveBounds.x && nextXPosition <= MoveBounds.z)
+                    currentPosition.x = nextXPosition;
+                if (nextYPosition >= MoveBounds.w && nextYPosition <= MoveBounds.y)
+                    currentPosition.z = nextYPosition;
             }
             else
             {
                 // Right
                 if (_mousePosition.x >= Screen.width - _distToScreenEdge &&
-                    currentPosition.x <= _moveBounds.z)
+                    currentPosition.x <= MoveBounds.z)
                     currentPosition.x += _moveSpeed * Time.deltaTime;
 
                 // Left
-                if (_mousePosition.x <= _distToScreenEdge && currentPosition.x >= _moveBounds.x)
+                if (_mousePosition.x <= _distToScreenEdge && currentPosition.x >= MoveBounds.x)
                     currentPosition.x -= _moveSpeed * Time.deltaTime;
 
                 // Top
                 if (_mousePosition.y >= Screen.height - _distToScreenEdge &&
-                    currentPosition.z <= _moveBounds.y)
+                    currentPosition.z <= MoveBounds.y)
                     currentPosition.z += _moveSpeed * Time.deltaTime;
 
                 // Bottom
-                if (_mousePosition.y <= _distToScreenEdge && currentPosition.z >= _moveBounds.w)
+                if (_mousePosition.y <= _distToScreenEdge && currentPosition.z >= MoveBounds.w)
                     currentPosition.z -= _moveSpeed * Time.deltaTime;
             }
 

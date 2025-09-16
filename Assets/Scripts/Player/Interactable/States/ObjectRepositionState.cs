@@ -19,7 +19,7 @@ namespace Player.Interactable.States
 
         public override void EnterState()
         {
-            _objectToMove.OnRepositionStart();
+            _objectToMove.RepositionStart();
             
             var transform = _objectToMove.transform;
             transform.SetParent(Trigger.transform);
@@ -47,7 +47,7 @@ namespace Player.Interactable.States
         public override void ExitState()
         {
             _objectToMove.transform.parent = null;
-            _objectToMove.OnRepositionEnd();
+            _objectToMove.RepositionEnd();
         }
 
         public override void InteractableTriggerEnter(ISceneInteractable other) { }

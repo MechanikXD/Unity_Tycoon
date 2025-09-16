@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-namespace Core.Behaviour.SingletonBehaviour {
+namespace Core.Behaviour.Singleton {
     public class SingletonBase<T> : MonoBehaviour where T : MonoBehaviour {
         public static T Instance { get; private set; }
 
         protected virtual void Awake() => ToSingleton();
 
-        protected void ToSingleton(bool dontDestroyOnLoad=true) {
+        protected void ToSingleton(bool dontDestroyOnLoad=false) {
             if (Instance != null) {
                 Debug.LogWarning($"Multiple Instances of {typeof(T)} was found on the scene!\n" +
                                  $"{gameObject.name} will be destroyed upon start.");
@@ -18,7 +18,7 @@ namespace Core.Behaviour.SingletonBehaviour {
             if (dontDestroyOnLoad) DontDestroyOnLoad(gameObject);
         }
 
-        protected void OnDestroy() {
+        protected virtual void OnDestroy() {
             if (Instance == this) {
                 Instance = null;
             }
