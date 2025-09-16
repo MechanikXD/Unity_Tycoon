@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5070797921809298532}
   - component: {fileID: 916919510823314401}
   - component: {fileID: 2488712565000000793}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 80dcf7cba29f01e41b38b3329e0ac21d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,7 +119,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac2bbe5d314bb5a0e7b27b5366e34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _renderer: {fileID: 2790676773842630494}
+  _notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
+  _isSingleton: 0
   _halfHeight: 0.5
+  _buildCost:
+    _gold: 5
+    _wood: 0
+    _stone: 1
+    _ore: 0
+    _people: 0
+  _upgradeCosts: []
+  _refundPercent: 0.5
 --- !u!54 &2488712565000000793
 Rigidbody:
   m_ObjectHideFlags: 0

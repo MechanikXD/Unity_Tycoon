@@ -5,8 +5,6 @@
         Gold,
         Wood,
         Stone,
-        Ore,
-        Population,
-        People
+        Ore
     }
 }

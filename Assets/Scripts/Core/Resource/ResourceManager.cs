@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using Core.Behaviour.SingletonBehaviour;
 using UnityEngine;
 
@@ -8,51 +8,76 @@ namespace Core.Resource
     public class ResourceManager : SingletonBase<ResourceManager>
     {
         [SerializeField] private float _resourceUpdateTime;
-        private Dictionary<ResourceType, int> _playerResources;
-        private Dictionary<ResourceType, int> _passiveIncome;
+        [SerializeField] private ResourceBundle _passiveIncome;
+        private ResourceBundle _playerResources;
+
+        [SerializeField] private int _maxPopulation;
+        private int _workingPeople;
+        
         private Coroutine _resourceUpdateCoroutine;
         private bool _coroutineCancellationToken;
+
+        public static event Action<ResourceBundle> ResourceUpdated;
 
         protected override void Awake()
         {
             base.Awake();
-            Initialize();
             _resourceUpdateCoroutine = StartCoroutine(UpdateResourcesOnTimer());
+            _playerResources.People = _maxPopulation;
         }
         
         public bool HasEnoughResources(ResourceBundle resources)
         {
-            foreach (var tuple in resources.Resources)
-            {
-                if (_playerResources[tuple.type] < tuple.amount)
-                {
-                    return false;
-                }
-            }
+            if (resources.People > _maxPopulation - _workingPeople) return false;
 
-            return true;
+            return _playerResources.Gold >= resources.Gold &&
+                   _playerResources.Wood >= resources.Wood &&
+                   _playerResources.Stone >= resources.Stone &&
+                   _playerResources.Ore >= resources.Ore &&
+                   _maxPopulation - _workingPeople >= resources.People;
         }
 
         public void Spend(ResourceBundle resources)
         {
             if (!HasEnoughResources(resources)) return;
 
-            foreach (var tuple in resources.Resources)
-            {
-                _playerResources[tuple.type] -= tuple.amount;
-            }
+            _playerResources -= resources;
+            _workingPeople += resources.People;
+            
+            ResourceUpdated?.Invoke(_playerResources);
+        }
+
+        public void AddResources(ResourceBundle resources)
+        {
+            _playerResources += resources;
+
+            ResourceUpdated?.Invoke(_playerResources);
+        }
+        
+        public void AddMaxPopulation(int count)
+        {
+            _maxPopulation += count;
+            _playerResources.People += count;
+
+            ResourceUpdated?.Invoke(_playerResources);
         }
 
         public void AddIncome(ResourceType ofType, int increment)
         {
-            _passiveIncome[ofType] += increment;
-        }
-
-        private void ProcessPassiveIncome()
-        {
-            foreach (var pair in _passiveIncome)
+            switch (ofType)
             {
-                _playerResources[pair.Key] += pair.Value;
+                case ResourceType.Gold:
+                    _passiveIncome.Gold += increment;
+                    break;
+                case ResourceType.Wood:
+                    _passiveIncome.Wood += increment;
+                    break;
+                case ResourceType.Stone:
+                    _passiveIncome.Stone += increment;
+                    break;
+                case ResourceType.Ore:
+                    _passiveIncome.Ore += increment;
+                    break;
             }
         }
 
@@ -61,17 +86,6 @@ namespace Core.Resource
             base.OnDestroy();
             StopCoroutine(_resourceUpdateCoroutine);
         }
-        
-        private void Initialize()
-        {
-            _playerResources = new Dictionary<ResourceType, int>();
-            _passiveIncome = new Dictionary<ResourceType, int>
-            {
-                [ResourceType.Gold] = 5,
-                [ResourceType.Wood] = 1,
-                [ResourceType.Stone] = 1
-            };
-        }
 
         private IEnumerator UpdateResourcesOnTimer()
         {
@@ -79,7 +93,9 @@ namespace Core.Resource
             while (_coroutineCancellationToken)
             {
                 yield return new WaitForSeconds(_resourceUpdateTime);
-                ProcessPassiveIncome();
+                _playerResources += _passiveIncome;
+
+                ResourceUpdated?.Invoke(_playerResources);
             }
         }
     }

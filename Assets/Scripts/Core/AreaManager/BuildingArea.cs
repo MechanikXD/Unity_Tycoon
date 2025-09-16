@@ -1,19 +1,21 @@
-﻿using Player.Interactable;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Core.AreaManager
 {
-    public class BuildingArea : MonoBehaviour, ISceneInteractable
+    public class BuildingArea : MonoBehaviour
     {
         [SerializeField] private BuildingArea _prefab;
+        [SerializeField] private MistObject _mist;
+        
         [SerializeField] private Vector2 _areaSize;
         [SerializeField] private bool _isStartingArea;
         [SerializeField] private int _originalCost;
         [SerializeField] private float _distanceMultiplayer;
-        [SerializeField] private GameObject _mistObject;
 
         private int _cost;
         private bool _isAvailable;
+
+        public int Cost => _cost;
 
         public Vector2Int ChunkCoordinate { get; private set; }
 
@@ -25,12 +27,6 @@ namespace Core.AreaManager
                 _isAvailable = true;
                 UnlockArea();
             }
-        }
-        
-        public void PrimaryAction()
-        {
-            // TODO: Check for cost
-            UnlockArea();
         }
         
         private void SetValues(Vector2Int newCoordinates, bool isAvailable=false)
@@ -54,7 +50,10 @@ namespace Core.AreaManager
 
         public void UnlockArea()
         {
-            Destroy(_mistObject);
+            if (_mist == null) return;
+            
+            Destroy(_mist.gameObject);
+            _mist = null;
             CreateAdjacentAreas();
         }
 
@@ -104,7 +103,5 @@ namespace Core.AreaManager
                 instance.SetValues(downArea);
             }
         }
-        
-        public void SecondaryAction() { }
     }
 }

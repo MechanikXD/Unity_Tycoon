@@ -26,7 +26,7 @@ namespace UI.HUD.View
         {
             void UpgradeProxy()
             {
-                _currentBuilding.OnUpgrade();
+                _currentBuilding.Upgrade();
             }
             
             void RepositionBuild()
@@ -37,7 +37,7 @@ namespace UI.HUD.View
 
             void RemoveProxy()
             {
-                _currentBuilding.OnRemove();
+                _currentBuilding.Destroy();
             }
             
             _upgradeButton.onClick.AddListener(UpgradeProxy);
