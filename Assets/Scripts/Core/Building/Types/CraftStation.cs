@@ -1,5 +1,5 @@
 ﻿using System;
-using UI.HUD.View;
+using UI.View.HUD;
 
 namespace Core.Building.Types
 {

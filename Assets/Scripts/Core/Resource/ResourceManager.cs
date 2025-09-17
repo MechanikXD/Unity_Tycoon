@@ -22,6 +22,12 @@ namespace Core.Resource
 
         public static event Action<ResourceBundle> ResourceUpdated;
 
+        public readonly static string WoodTextIcon = "<sprite=\"wood\" index=0>";
+        public readonly static string StoneTextIcon = "<sprite=\"stone\" index=0>";
+        public readonly static string GoldTextIcon = "<sprite=\"gold\" index=0>";
+        public readonly static string OreTextIcon = "<sprite=\"ore\" index=0>";
+        public readonly static string PeopleTextIcon = "<sprite=\"people\" index=0>";
+
         protected override void Awake()
         {
             base.Awake();

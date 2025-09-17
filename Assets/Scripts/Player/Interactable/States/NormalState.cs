@@ -1,7 +1,8 @@
-﻿using Core.Behaviour.PlayerStateMachine;
+﻿using Core.AreaManager;
+using Core.Behaviour.PlayerStateMachine;
 using JetBrains.Annotations;
 using UI;
-using UI.HUD.View;
+using UI.View.HUD;
 using UnityEngine;
 
 namespace Player.Interactable.States
@@ -12,8 +13,14 @@ namespace Player.Interactable.States
         
         public NormalState(PlayerStateMachine sm, Transform trigger) : base(sm, trigger) { }
 
+        public override void EnterState()
+        {
+            MistObject.MistDestroyed += ClearSelected;
+        }
+
         public override void ExitState()
         {
+            MistObject.MistDestroyed -= ClearSelected;
             UIManager.Instance.ExitHudCanvas<BuildInteractionView>();
         }
 
@@ -43,6 +50,11 @@ namespace Player.Interactable.States
         {
             if (_currentlySelected != other) return;
                 
+            _currentlySelected = null;
+        }
+
+        private void ClearSelected()
+        {
             _currentlySelected = null;
         }
     }

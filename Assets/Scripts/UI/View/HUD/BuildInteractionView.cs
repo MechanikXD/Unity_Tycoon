@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.HUD.View
+namespace UI.View.HUD
 {
     public class BuildInteractionView : CanvasView
     {

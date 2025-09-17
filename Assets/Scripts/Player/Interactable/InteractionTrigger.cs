@@ -1,4 +1,6 @@
-﻿using Core.Behaviour.PlayerStateMachine;
+﻿using System;
+using Core.AreaManager;
+using Core.Behaviour.PlayerStateMachine;
 using Player.Interactable.States;
 using UnityEngine;
 

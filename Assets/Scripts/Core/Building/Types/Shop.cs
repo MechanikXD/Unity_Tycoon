@@ -1,5 +1,5 @@
 ﻿using System;
-using UI.HUD.View;
+using UI.View.HUD;
 using UnityEngine;
 
 namespace Core.Building.Types

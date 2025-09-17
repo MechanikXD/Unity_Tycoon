@@ -2,7 +2,7 @@
 using Core.Resource;
 using Player.Interactable;
 using UI;
-using UI.HUD.View;
+using UI.View.HUD;
 using UnityEngine;
 
 namespace Core.Building
@@ -12,7 +12,7 @@ namespace Core.Building
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private Color _notPlaceableColor = Color.red;
         private Color _originalColor;
-        [SerializeField] private string _description;
+        [SerializeField] private string _description = $"{ResourceManager.PeopleTextIcon} <- cool icon";
 
         [Space]
         [SerializeField] private bool _isSingleton;
