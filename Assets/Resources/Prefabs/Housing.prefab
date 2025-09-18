@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92830887fe9b459fb39475c14d9e5b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _prefabIdInDatSet: 0
   _renderer: {fileID: 2021898692172993177}
   _notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
   _description: Little cozy house

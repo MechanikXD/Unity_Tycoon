@@ -1,7 +1,7 @@
 ﻿using System;
+using Core.Items;
 using Core.Resource;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.Data
 {
@@ -14,20 +14,19 @@ namespace UI.Data
     }
 
     [Serializable]
-    public abstract class ItemData
+    public class ItemData
     {
-        [SerializeField] private Image _image;
+        [SerializeField] private Sprite _image;
         [SerializeField] private string _title;
         [SerializeField] private string _description;
         [SerializeField] private ResourceBundle _cost;
-        public bool IsOwned { get; set; }
-        
-        public Image Image => _image;
+        [SerializeReference] private ItemActionBase _action;
+        public bool IsOwned { get; set; } 
+
+        public ItemActionBase Action => _action;
+        public Sprite Image => _image;
         public string Title => _title;
         public string Description => _description;
         public ResourceBundle Cost => _cost;
-        
-        public abstract void OnItemOwned();
-        public abstract void OnDisable();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Core.Resource;
+﻿using System.Collections.Generic;
+using Core.Resource;
 using UI.Data;
 using UI.View.Other;
 using UnityEngine;
@@ -16,16 +17,22 @@ namespace UI.View.UI
         [SerializeField] private ItemDataSet _itemData;
         [SerializeField] private OnlyIconDisplay _itemPrefab;
 
-        private ItemData _currentDisplay;
+        private Dictionary<ItemData, OnlyIconDisplay> _icons;
 
         private void Awake()
         {
+            _display.Initialize(true);
+            _icons = new Dictionary<ItemData, OnlyIconDisplay>();
             if (_itemData.DataSet is not { Length: > 0 }) return;
             
             foreach (var item in _itemData.DataSet)
             {
+                if (item.IsOwned) continue;
+                
                 var instance = Instantiate(_itemPrefab, _content);
                 instance.Set(item);
+                instance.Initialize(_display, true);
+                _icons.Add(item, instance);
             }
         }
 
@@ -43,18 +50,22 @@ namespace UI.View.UI
 
         private void CraftItem()
         {
-            if (!_craftButton.interactable || _currentDisplay == null) return;
-            if (!ResourceManager.Instance.HasEnoughResources(_currentDisplay.Cost)) return;
+            var current = _display.Current;
+            if (!_craftButton.interactable || current == null) return;
+            if (!ResourceManager.Instance.HasEnoughResources(current.Cost)) return;
             
-            ResourceManager.Instance.Spend(_currentDisplay.Cost);
-            _currentDisplay.IsOwned = true;
-            // TODO: Remove item from this content
-            // TODO: Item obtaining logic
-            // _currentDisplay.OnItemOwned();
+            ResourceManager.Instance.Spend(current.Cost);
+            current.IsOwned = true;
+            _display.Current.Action.ItemOwned();
+            
+            var thisInstance = _icons[current];
+            UIManager.Instance.GetUICanvas<InventoryView>().AddToInventory(thisInstance);
+            _display.Clear();
         }
 
         public override void Show()
         {
+            _display.Clear();
             _thisCanvas.enabled = true;
         }
 

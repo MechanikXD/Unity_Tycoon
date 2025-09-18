@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Core.AreaManager
 {
@@ -12,7 +13,7 @@ namespace Core.AreaManager
         [SerializeField] private float _distanceMultiplayer;
 
         public int Cost { get; private set; }
-
+        public bool IsUnlocked { get; private set; }
         public Vector2Int ChunkCoordinate { get; private set; }
         
         public void Initialize(Vector2Int newCoordinates)
@@ -28,14 +29,17 @@ namespace Core.AreaManager
             AreaManager.Instance.AddArea(this);
         }
 
-        public void UnlockArea()
+        public void UnlockArea(out BuildingArea[] createdAreas)
         {
             Destroy(_mist.gameObject);
-            CreateAdjacentAreas();
+            IsUnlocked = true;
+            createdAreas = CreateAdjacentAreas();
         }
 
-        private void CreateAdjacentAreas()
+        private BuildingArea[] CreateAdjacentAreas()
         {
+            var created = new List<BuildingArea>();
+            
             var leftArea = ChunkCoordinate;
             leftArea.x -= 1;
             if (!AreaManager.Instance.HasAreaAt(leftArea))
@@ -45,6 +49,7 @@ namespace Core.AreaManager
                 var instance = Instantiate(_prefab, position, Quaternion.identity);
                 instance.name = $"Building Area {leftArea}";
                 instance.Initialize(leftArea);
+                created.Add(instance);
             }
             
             var rightArea = ChunkCoordinate;
@@ -56,6 +61,7 @@ namespace Core.AreaManager
                 var instance = Instantiate(_prefab, position, Quaternion.identity);
                 instance.name = $"Building Area {rightArea}";
                 instance.Initialize(rightArea);
+                created.Add(instance);
             }
             
             var upArea = ChunkCoordinate;
@@ -67,6 +73,7 @@ namespace Core.AreaManager
                 var instance = Instantiate(_prefab, position, Quaternion.identity);
                 instance.name = $"Building Area {upArea}";
                 instance.Initialize(upArea);
+                created.Add(instance);
             }
             
             var downArea = ChunkCoordinate;
@@ -78,7 +85,10 @@ namespace Core.AreaManager
                 var instance = Instantiate(_prefab, position, Quaternion.identity);
                 instance.name = $"Building Area {downArea}";
                 instance.Initialize(downArea);
+                created.Add(instance);
             }
+
+            return created.ToArray();
         }
     }
 }

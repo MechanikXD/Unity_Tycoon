@@ -28,6 +28,7 @@ namespace UI.View.HUD
                 _menuButton.onClick.RemoveListener(EnterMenu);
             };
             ResourceManager.ResourceUpdated += UpdateResourceCount;
+            UpdateResourceCount(ResourceManager.Instance.Current);
         }
 
         private void OnDisable()

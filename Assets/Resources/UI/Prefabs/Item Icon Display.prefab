@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3029880781699469638}
   - component: {fileID: 5442127972061969380}
   - component: {fileID: 6690217727051098031}
+  - component: {fileID: 9183645259370468441}
   m_Layer: 5
   m_Name: Item Icon Display
   m_TagString: Untagged
@@ -90,9 +91,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1590202cd74a29ae5fef252b73d6e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _image: {fileID: 5442127972061969380}
-  _displayCost: 0
+  _image: {fileID: 829699096968565591}
+  _data:
+    _image: {fileID: 0}
+    _title: 
+    _description: 
+    _cost:
+      _gold: 0
+      _wood: 0
+      _stone: 0
+      _ore: 0
+      _people: 0
   _cost: {fileID: 1187963993739205432}
+--- !u!114 &9183645259370468441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3634868341348639839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &5194750005930239739
 GameObject:
   m_ObjectHideFlags: 0

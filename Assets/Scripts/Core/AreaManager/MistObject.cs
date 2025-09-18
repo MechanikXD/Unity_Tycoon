@@ -18,7 +18,7 @@ namespace Core.AreaManager
             {
                 ResourceManager.Instance.Spend(goldRequired);
                 MistDestroyed?.Invoke();
-                _parent.UnlockArea();
+                _parent.UnlockArea(out _);
             }
         }
 

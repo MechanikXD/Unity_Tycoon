@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 namespace UI.View.HUD
 {
-    public class BuildCanvasView : CanvasView
+    public class BuildModeView : CanvasView
     {
         [SerializeField] private Transform _content;
         [SerializeField] private Button _exitButton;
         
         [SerializeField] private BuildingDataSet _buildingData;
         [SerializeField] private BuildIcon _contentPrefab;
+        
+        [SerializeField] private Color _allowBuildColor = new Color(.4f, .8f, 1f, .4f);
+        [SerializeField] private Color _prohibitBuildColor = new Color(1f, .4f, .4f, .4f);
 
         private void Awake()
         {

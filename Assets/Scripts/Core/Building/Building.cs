@@ -4,11 +4,13 @@ using Player.Interactable;
 using UI;
 using UI.View.HUD;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Core.Building
 {
     public abstract class Building : MonoBehaviour, ISceneInteractable
     {
+        [FormerlySerializedAs("_prefabIdInDatSet"),SerializeField] private int _prefabIdInDataSet;
         [SerializeField] private MeshRenderer _renderer;
         [SerializeField] private Color _notPlaceableColor = Color.red;
         private Color _originalColor;
@@ -21,18 +23,20 @@ namespace Core.Building
         [SerializeField] private ResourceBundle[] _upgradeCosts;
         [SerializeField] private float _refundPercent;
         
-        private int _currentUpgradeLevel;
         private ResourceBundle _resourcesSpent;
         private bool _isStationary;
         
         private static LayerMask _groundLayer;
         private HashSet<int> _objectsInRange;
-        
+
+        public int PrefabIdInDataSet => _prefabIdInDataSet;
+        public ResourceBundle Cost => _buildCost;
+        public int CurrentUpgradeLevel { get; private set; }
         public bool CanBePlaced { get; private set; }
         public bool IsSingleton => _isSingleton;
         public float HalfHeight => _halfHeight;
         public string Description => _description;
-        public bool CanBeUpgraded => _currentUpgradeLevel < _upgradeCosts.Length;
+        public bool CanBeUpgraded => CurrentUpgradeLevel < _upgradeCosts.Length;
         public virtual bool CanBeDestroyed => true; 
 
         public virtual void Build()
@@ -83,12 +87,12 @@ namespace Core.Building
         {
             if (!CanBeUpgraded) return;
             
-            var upgradeCosts = _upgradeCosts[_currentUpgradeLevel];
+            var upgradeCosts = _upgradeCosts[CurrentUpgradeLevel];
             if (ResourceManager.Instance.HasEnoughResources(upgradeCosts))
             {
                 _resourcesSpent += upgradeCosts;
                 ResourceManager.Instance.Spend(upgradeCosts);
-                _currentUpgradeLevel++;
+                CurrentUpgradeLevel++;
             }
         }
 

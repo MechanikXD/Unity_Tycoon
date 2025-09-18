@@ -17,12 +17,11 @@ namespace UI.Data
     [Serializable]
     public class BuildingData
     {
-        [SerializeField] private Image _icon;
-        [SerializeField] private ResourceBundle _cost;
+        [SerializeField] private Sprite _icon;
         [SerializeField] private Building _prefab;
 
-        public Image Icon => _icon;
-        public ResourceBundle Cost => _cost;
+        public Sprite Icon => _icon;
+        public ResourceBundle Cost => _prefab.Cost;
         public Building Prefab => _prefab;
     }
 }

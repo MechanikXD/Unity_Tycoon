@@ -8,33 +8,38 @@ namespace UI.View.Other
 {
     public class ItemDisplay : MonoBehaviour
     {
+        private ItemData _currentDisplayed;
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _description;
         [SerializeField, CanBeNull] private TMP_Text _cost;
-        
-        public bool DisplayCost { get; set; }
+        [SerializeField] private Sprite _clearImage;
 
-        private void Awake()
+        private bool _displayCost;
+        public ItemData Current => _currentDisplayed;
+
+        public void Initialize(bool displayCost)
         {
-            if (!DisplayCost && _cost != null) _cost.gameObject.SetActive(false);
+            if (!_displayCost && _cost != null) _cost.gameObject.SetActive(false);
         }
         
         public void Set(ItemData info)
         {
-            _image.sprite = info.Image.sprite;
+            _currentDisplayed = info;
+            _image.sprite = info.Image;
             _title.SetText(info.Title);
             _description.SetText(info.Description);
             
-            if (DisplayCost && _cost != null)
+            if (_displayCost && _cost != null)
                 _cost.SetText(TextFormatHelper.ResourceBundleToString(info.Cost));
-            else if (!DisplayCost && _cost != null)
+            else if (!_displayCost && _cost != null)
                 _cost.SetText(string.Empty);
         }
 
         public void Clear()
         {
-            _image.sprite = null;
+            _currentDisplayed = null;
+            _image.sprite = _clearImage;
             _title.SetText(string.Empty);
             _description.SetText(string.Empty);
             if (_cost != null) _cost.SetText(string.Empty);

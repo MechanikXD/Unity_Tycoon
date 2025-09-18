@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using Core.Behaviour.Singleton;
+using Core.DataSave;
 using UnityEngine;
 
 namespace Core.Resource
 {
-    public class ResourceManager : SingletonBase<ResourceManager>
+    public class ResourceManager : SingletonBase<ResourceManager>, ISaveAble
     {
         [SerializeField] private float _resourceUpdateTime;
         [SerializeField] private ResourceBundle _passiveIncome;
@@ -33,6 +34,7 @@ namespace Core.Resource
         protected override void Awake()
         {
             base.Awake();
+            SaveManager.Register("Resource Manager", this);
             _resourceUpdateCoroutine = StartCoroutine(UpdateResourcesOnTimer());
             _playerResources.People = _maxPopulation;
         }
@@ -114,6 +116,16 @@ namespace Core.Resource
 
                 ResourceUpdated?.Invoke(_playerResources);
             }
+        }
+
+        public object SaveData()
+        {
+            return _playerResources;
+        }
+
+        public void LoadData(object data)
+        {
+            _playerResources = (ResourceBundle)data;
         }
     }
 }

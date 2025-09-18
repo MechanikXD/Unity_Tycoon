@@ -12,3 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20212e0488e64c6e9fdb33344ce86ddd, type: 3}
   m_Name: Item DataSet
   m_EditorClassIdentifier: 
+  _dataset:
+  - _image: {fileID: 21300000, guid: b789e1382534db84884a196065e3bf19, type: 3}
+    _title: Gold
+    _description: Just gold...
+    _cost:
+      _gold: 1
+      _wood: 0
+      _stone: 0
+      _ore: 0
+      _people: 1
+    _action: {fileID: 11400000, guid: 01abb6a3ff2330c46b5f080459e66898, type: 2}
+  - _image: {fileID: 21300000, guid: a909423684cac52479b68c2eb0086c79, type: 3}
+    _title: A ROCK
+    _description: This rock rocks!
+    _cost:
+      _gold: 0
+      _wood: 0
+      _stone: 100
+      _ore: 0
+      _people: 0
+    _action: {fileID: 11400000, guid: 01abb6a3ff2330c46b5f080459e66898, type: 2}

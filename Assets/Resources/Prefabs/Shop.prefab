@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f985761103594d12b3008c3749e4a409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _prefabIdInDatSet: 2
   _renderer: {fileID: 1638136331106427056}
   _notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
   _description: <sprite="people"> <- icon

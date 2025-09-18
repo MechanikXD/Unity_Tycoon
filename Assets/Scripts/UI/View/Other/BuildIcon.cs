@@ -15,13 +15,15 @@ namespace UI.View.Other
         [SerializeField] private TMP_Text _cost;
         [SerializeField] private Building _building;
         [SerializeField] private Image _background;
-        [Space]
-        [SerializeField] private Color _allowBuildColor = new Color(.4f, .8f, 1f, .4f);
-        [SerializeField] private Color _prohibitBuildColor = new Color(1f, .4f, .4f, .4f);
 
-        public void Set(Image image, ResourceBundle cost, Building script)
+        public void SetBackgroundColor(Color color)
         {
-            _image.sprite = image.sprite;
+            _background.color = color;
+        }
+        
+        public void Set(Sprite image, ResourceBundle cost, Building script)
+        {
+            _image.sprite = image;
             _cost.SetText(TextFormatHelper.ResourceBundleToString(cost));
             _building = script;
         }

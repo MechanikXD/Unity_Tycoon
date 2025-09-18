@@ -675,5 +675,5 @@ MonoBehaviour:
   _image: {fileID: 5264683779464780604}
   _title: {fileID: 6628362448780453939}
   _description: {fileID: 8294437323736925178}
-  _displayCost: 0
   _cost: {fileID: 7898591161957828310}
+  _clearImage: {fileID: 21300000, guid: 8182ef17d27e9c74785451870715143c, type: 3}

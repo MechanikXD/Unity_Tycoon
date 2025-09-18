@@ -7,7 +7,7 @@ namespace Core.AreaManager
         [SerializeField] private Vector2 _areaSize;
         [SerializeField] private BuildingArea _areaPrefab;
 
-        private void Start()
+        private void OnEnable()
         {
             CreateAdjacentAreas();
         }

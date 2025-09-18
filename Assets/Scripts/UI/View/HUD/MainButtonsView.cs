@@ -16,7 +16,7 @@ namespace UI.View.HUD
 
         private void OnEnable()
         {
-            void EnterBuildMode() => UIManager.Instance.EnterHUDCanvas<BuildCanvasView>();
+            void EnterBuildMode() => UIManager.Instance.EnterHUDCanvas<BuildModeView>();
             void EnterInventory() => UIManager.Instance.EnterUICanvas<InventoryView>();
             void EnterCraft() => UIManager.Instance.EnterUICanvas<CraftView>();
             void EnterShop() => UIManager.Instance.EnterUICanvas<ShopView>();

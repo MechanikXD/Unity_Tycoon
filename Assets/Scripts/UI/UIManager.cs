@@ -44,7 +44,7 @@ namespace UI {
             if (_hudCanvases.TryGetValue(typeof(T), out var hud)) hud.Hide();
         }
 
-        private T GetUICanvas<T>() where T : CanvasView => (T)_uiCanvases[typeof(T)];
+        public T GetUICanvas<T>() where T : CanvasView => (T)_uiCanvases[typeof(T)];
         private T GetHUDCanvas<T>() where T : CanvasView => (T)_hudCanvases[typeof(T)];
 
         private void SortCanvases() {

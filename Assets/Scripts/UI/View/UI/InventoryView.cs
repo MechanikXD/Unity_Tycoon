@@ -18,13 +18,31 @@ namespace UI.View.UI
 
         private void Awake()
         {
+            _display.Initialize(false);
             if (_itemData.DataSet is not { Length: > 0 }) return;
             
             foreach (var item in _itemData.DataSet)
             {
+                if (!item.IsOwned) continue;
+                
                 var instance = Instantiate(_itemPrefab, _content);
                 instance.Set(item);
+                instance.Initialize(_display, false);
             }
+        }
+
+        public void ActivateOwnedItems()
+        {
+            foreach (var item in _itemData.DataSet)
+            {
+                if (item.IsOwned) item.Action.ItemOwned();
+            }
+        }
+
+        public void AddToInventory(OnlyIconDisplay item)
+        {
+            item.transform.SetParent(_content);
+            item.Initialize(_display, false);
         }
 
         private void OnEnable()

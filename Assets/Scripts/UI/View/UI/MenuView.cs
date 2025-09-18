@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Core.DataSave;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI.View.UI
@@ -28,12 +30,20 @@ namespace UI.View.UI
 
         private void EnterMainMenu()
         {
-            // TODO: Make main menu
+            SceneManager.LoadScene("MainMenu");
         }
 
-        private void EnterSettings() => UIManager.Instance.EnterUICanvas<SettingsView>();
+        private void EnterSettings()
+        {
+            SaveManager.SaveToFile();
+            UIManager.Instance.EnterUICanvas<SettingsView>();
+        }
 
-        private void ExitApplication() => Application.Quit();
+        private void ExitApplication()
+        {
+            SaveManager.SaveToFile();
+            Application.Quit();
+        }
 
         public override void Show()
         {
