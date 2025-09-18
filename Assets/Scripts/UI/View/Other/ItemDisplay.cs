@@ -11,12 +11,13 @@ namespace UI.View.Other
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _description;
-        [SerializeField] private bool _displayCost;
         [SerializeField, CanBeNull] private TMP_Text _cost;
+        
+        public bool DisplayCost { get; set; }
 
         private void Awake()
         {
-            if (!_displayCost && _cost != null) _cost.gameObject.SetActive(false);
+            if (!DisplayCost && _cost != null) _cost.gameObject.SetActive(false);
         }
         
         public void Set(ItemData info)
@@ -25,9 +26,9 @@ namespace UI.View.Other
             _title.SetText(info.Title);
             _description.SetText(info.Description);
             
-            if (_displayCost && _cost != null)
+            if (DisplayCost && _cost != null)
                 _cost.SetText(TextFormatHelper.ResourceBundleToString(info.Cost));
-            else if (!_displayCost && _cost != null)
+            else if (!DisplayCost && _cost != null)
                 _cost.SetText(string.Empty);
         }
 

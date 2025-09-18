@@ -20,6 +20,7 @@ namespace UI.Data
         [SerializeField] private string _title;
         [SerializeField] private string _description;
         [SerializeField] private ResourceBundle _cost;
+        public bool IsOwned { get; set; }
         
         public Image Image => _image;
         public string Title => _title;

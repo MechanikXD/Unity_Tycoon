@@ -1,4 +1,6 @@
 using Player.Interactable;
+using UI;
+using UI.View.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -55,6 +57,18 @@ namespace Player
         public void OnPrimaryAction() => _interaction.PrimaryAction();
         
         public void OnSecondaryAction() => _interaction.SecondaryAction();
+
+        public void OnExit()
+        {
+            if (UIManager.Instance.HasOpenedUI)
+            {
+                UIManager.Instance.ExitLastCanvas();
+            }
+            else
+            {
+                UIManager.Instance.EnterUICanvas<MenuView>();
+            }
+        }
 
         private void Initialize()
         {

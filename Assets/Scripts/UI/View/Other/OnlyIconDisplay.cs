@@ -9,21 +9,22 @@ namespace UI.View.Other
     public class OnlyIconDisplay : MonoBehaviour
     {
         [SerializeField] private Image _image;
-        [SerializeField] private bool _displayCost;
         [SerializeField, CanBeNull] private TMP_Text _cost;
 
+        public bool DisplayCost { get; set; }
+        
         private void Awake()
         {
-            if (!_displayCost && _cost != null) _cost.gameObject.SetActive(false);
+            if (!DisplayCost && _cost != null) _cost.gameObject.SetActive(false);
         }
 
         public void Set(ItemData info)
         {
             _image.sprite = info.Image.sprite;
             
-            if (_displayCost && _cost != null)
+            if (DisplayCost && _cost != null)
                 _cost.SetText(TextFormatHelper.ResourceBundleToString(info.Cost));
-            else if (!_displayCost && _cost != null)
+            else if (!DisplayCost && _cost != null)
                 _cost.SetText(string.Empty);
         }
 

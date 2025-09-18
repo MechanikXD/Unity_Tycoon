@@ -13,7 +13,6 @@ namespace UI.View.HUD
         private static Building _currentBuilding;
         private Action _eventUnSubscriber;
         [SerializeField] private RectTransform _contentTransform;
-        [SerializeField] private Vector3 _offset;
 
         private static Button _specialInteraction; 
         
@@ -78,7 +77,7 @@ namespace UI.View.HUD
 
         public override void Show()
         {
-            _contentTransform.position = Input.mousePosition + _offset;
+            _contentTransform.position = Input.mousePosition;
             
             _textField.SetText(_currentBuilding.Description);
             _destroyButton.interactable = _currentBuilding.CanBeDestroyed;

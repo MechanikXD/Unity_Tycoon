@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI
+namespace UI.View.Other
 {
     [RequireComponent(typeof(EventTrigger))]
     public abstract class UIInteractable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 

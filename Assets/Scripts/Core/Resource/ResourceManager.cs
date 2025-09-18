@@ -27,6 +27,8 @@ namespace Core.Resource
         public readonly static string GoldTextIcon = "<sprite=\"gold\" index=0>";
         public readonly static string OreTextIcon = "<sprite=\"ore\" index=0>";
         public readonly static string PeopleTextIcon = "<sprite=\"people\" index=0>";
+        
+        public ResourceBundle Current => _playerResources;
 
         protected override void Awake()
         {
@@ -44,6 +46,11 @@ namespace Core.Resource
                    _playerResources.Stone >= resources.Stone &&
                    _playerResources.Ore >= resources.Ore &&
                    _maxPopulation - _workingPeople >= resources.People;
+        }
+        
+        public bool HasEnoughResource(ResourceType ofType, int amount)
+        {
+            return _playerResources.Get(ofType) >= amount;
         }
 
         public void Spend(ResourceBundle resources)

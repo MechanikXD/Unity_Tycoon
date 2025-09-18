@@ -121,6 +121,7 @@ MonoBehaviour:
   _cost: {fileID: 4399379694231832702}
   _building: {fileID: 4160812524660521414, guid: f596119fd605a594799f07fb4f8e1786,
     type: 3}
+  _background: {fileID: 3176181366692431800}
   _allowBuildColor: {r: 0.3, g: 0.6, b: 1, a: 0.4}
   _prohibitBuildColor: {r: 1, g: 0.4, b: 0.4, a: 0.4}
 --- !u!1 &7566922822805535329
