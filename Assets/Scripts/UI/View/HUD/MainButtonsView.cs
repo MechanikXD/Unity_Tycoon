@@ -14,6 +14,15 @@ namespace UI.View.HUD
         [SerializeField] private Button _craftButton;
         [SerializeField] private Button _inventoryButton;
 
+        public Button ShopButton => _shopButton;
+        public Button CraftButton => _craftButton;
+        
+        private void Awake()
+        {
+            _craftButton.interactable = false;
+            _shopButton.interactable = false;
+        }
+
         private void OnEnable()
         {
             void EnterBuildMode() => UIManager.Instance.EnterHUDCanvas<BuildModeView>();
