@@ -1,17 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Core.Behaviour.Singleton;
+using Core.DataSave;
 using UnityEngine;
 
 namespace Core.Audio
 {
-    public class AudioManager : SingletonBase<AudioManager>
+    public class AudioManager : SingletonBase<AudioManager>, ISaveAble
     {
         [SerializeField] private AudioSource _musicSource;
 
         [SerializeField] private int _localSourcePoolCount = 31;
         [SerializeField] private AudioSource _localSource;
         private Queue<AudioSource> _localSourcePool;
+        private float _sfxVolume = 1f;
+        private float _musicVolume = 1f;
 
         protected override void Awake()
         {
@@ -19,7 +23,18 @@ namespace Core.Audio
             Initialize();
         }
 
-        public void PlaySound(AudioClip clip, Vector3 position, float reach = 20, float pitch = 1f)
+        public void SetMusicVolume(float value)
+        {
+            _musicVolume = value;
+            _musicSource.volume = _musicVolume;
+        }
+
+        public void SetSfxVolume(float value)
+        {
+            _sfxVolume = value;
+        }
+
+        public void PlaySound(AudioClip clip, Vector3 position, float reach = 20, float pitch = 1f, float spread=1f)
         {
             if (_localSourcePool.Peek().isPlaying)
             {
@@ -28,6 +43,8 @@ namespace Core.Audio
                 newSource.transform.position = position;
                 newSource.maxDistance = reach;
                 newSource.pitch = pitch;
+                newSource.spread = spread;
+                newSource.volume = _sfxVolume;
 
                 newSource.Play();
                 StartCoroutine(DestroyDetachedSourceAfterFinish(newSource));
@@ -40,6 +57,8 @@ namespace Core.Audio
             source.transform.position = position;
             source.maxDistance = reach;
             source.pitch = pitch;
+            source.spread = spread;
+            source.volume = _sfxVolume;
 
             source.Play();
             _localSourcePool.Enqueue(source);
@@ -58,6 +77,34 @@ namespace Core.Audio
             {
                 _localSourcePool.Enqueue(Instantiate(_localSource, transform));
             }
+        }
+
+        public object SaveData()
+        {
+            return new AudioSaveData(_sfxVolume, _musicVolume);
+        }
+
+        public void LoadData(object data)
+        {
+            var saveData = (AudioSaveData)data;
+            SetSfxVolume(saveData.SfxVolume);
+            SetMusicVolume(saveData.MusicVolume);
+        }
+    }
+
+    [Serializable]
+    public class AudioSaveData
+    {
+        [SerializeField] private float _sfxVolume;
+        [SerializeField] private float _musicVolume;
+
+        public float SfxVolume => _sfxVolume;
+        public float MusicVolume => _musicVolume;
+
+        public AudioSaveData(float music, float sfx)
+        {
+            _sfxVolume = sfx;
+            _musicVolume = music;
         }
     }
 }

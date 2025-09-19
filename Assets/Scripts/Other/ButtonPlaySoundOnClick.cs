@@ -1,5 +1,4 @@
-﻿using System;
-using Core.Audio;
+﻿using Core.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +26,7 @@ namespace Other
 
         private void PLaySound()
         {
-            AudioManager.Instance.PlaySound(_clip, transform.position, 100f);
+            AudioManager.Instance.PlaySound(_clip, transform.position, spread:0f);
         }
     }
 }
