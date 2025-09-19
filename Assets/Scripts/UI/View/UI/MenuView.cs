@@ -30,12 +30,19 @@ namespace UI.View.UI
 
         private void EnterMainMenu()
         {
-            SceneManager.LoadScene("MainMenu");
+            void LoadScene()
+            {
+                LoadingView.OnAnimationEnd -= LoadScene;
+                SceneManager.LoadScene("MainMenu");
+            }
+
+            LoadingView.OnAnimationEnd += LoadScene;
+            UIManager.Instance.EnterUICanvas<LoadingView>();
         }
 
         private void EnterSettings()
         {
-            SaveManager.SaveToFile();
+            // SaveManager.SaveToFile();
             UIManager.Instance.EnterUICanvas<SettingsView>();
         }
 

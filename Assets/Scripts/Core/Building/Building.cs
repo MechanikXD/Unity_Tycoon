@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Audio;
 using Core.Resource;
 using Player.Interactable;
 using UI;
@@ -15,7 +16,9 @@ namespace Core.Building
         [SerializeField] private Color _notPlaceableColor = Color.red;
         private Color _originalColor;
         [SerializeField] private string _description = $"{ResourceManager.PeopleTextIcon} <- cool icon";
-
+        [SerializeField] private AudioClip _placeSound;
+        [SerializeField] private AudioClip _destroySound;
+        
         [Space]
         [SerializeField] private bool _isSingleton;
         [SerializeField] private float _halfHeight;
@@ -47,6 +50,7 @@ namespace Core.Building
             
             RepositionEnd();
             
+            AudioManager.Instance.PlaySound(_placeSound, transform.position);
             BuildingManager.Instance.Add(this);
         }
 
@@ -79,6 +83,7 @@ namespace Core.Building
             ResourceManager.Instance.AddResources(refund);
             BuildingManager.Instance.Remove(this);
             UIManager.Instance.ExitHudCanvas<BuildInteractionView>();
+            AudioManager.Instance.PlaySound(_destroySound, transform.position);
             BeforeDestroy();
             Destroy(gameObject);
         }

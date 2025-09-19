@@ -1,5 +1,6 @@
 ﻿using Core.DataSave;
 using UI.Data;
+using UI.View.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,7 +32,14 @@ namespace UI.MainMenuView
 
         private void LoadGame()
         {
-            SceneManager.LoadScene("GameScene");
+            void LoadScene()
+            {
+                LoadingView.OnAnimationEnd -= LoadScene;
+                SceneManager.LoadScene("GameScene");
+            }
+
+            LoadingView.OnAnimationEnd += LoadScene;
+            UIManager.Instance.EnterUICanvas<LoadingView>();
         }
 
         private void LoadNewGame()
@@ -58,7 +66,7 @@ namespace UI.MainMenuView
         {
             Application.Quit();
         }
-        
+
         public override void Show()
         {
             _thisCanvas.enabled = true;
