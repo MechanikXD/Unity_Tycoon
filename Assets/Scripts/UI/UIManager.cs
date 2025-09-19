@@ -35,9 +35,9 @@ namespace UI {
 
         public void ExitLastCanvas() {
             if (_uiStack.Count > 0) _uiStack.Pop().Hide();
-            else _uiStack.Peek().Show();
-
-            if (_uiStack.Count <= 0) HasOpenedUI = false;
+            
+            if (_uiStack.Count > 0) _uiStack.Peek().Show();
+            else HasOpenedUI = false;
         }
 
         public void ExitHudCanvas<T>() where T : CanvasView {
