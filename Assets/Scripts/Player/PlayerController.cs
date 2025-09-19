@@ -1,4 +1,6 @@
 using Player.Interactable;
+using UI;
+using UI.View.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,6 +39,7 @@ namespace Player
 
         public void OnMove(InputValue value)
         {
+            if (UIManager.Instance.HasOpenedUI) return;
             _moveVector = value.Get<Vector2>();
         }
 
@@ -48,13 +51,34 @@ namespace Player
 
         public void OnMouseScroll(InputValue delta)
         {
+            if (UIManager.Instance.HasOpenedUI) return;
             var scrollDelta = delta.Get<float>() * (_scrollSpeed * Time.deltaTime);
             UpdateScroll(scrollDelta);
         }
 
-        public void OnPrimaryAction() => _interaction.PrimaryAction();
-        
-        public void OnSecondaryAction() => _interaction.SecondaryAction();
+        public void OnPrimaryAction()
+        {
+            if (UIManager.Instance.HasOpenedUI) return;
+            _interaction.PrimaryAction();
+        }
+
+        public void OnSecondaryAction()
+        {
+            if (UIManager.Instance.HasOpenedUI) return;
+            _interaction.SecondaryAction();
+        }
+
+        public void OnExit()
+        {
+            if (UIManager.Instance.HasOpenedUI)
+            {
+                UIManager.Instance.ExitLastCanvas();
+            }
+            else
+            {
+                UIManager.Instance.EnterUICanvas<MenuView>();
+            }
+        }
 
         private void Initialize()
         {

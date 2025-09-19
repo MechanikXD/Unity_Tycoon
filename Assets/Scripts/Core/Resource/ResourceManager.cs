@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using Core.Behaviour.Singleton;
+using Core.DataSave;
 using UnityEngine;
 
 namespace Core.Resource
 {
-    public class ResourceManager : SingletonBase<ResourceManager>
+    public class ResourceManager : SingletonBase<ResourceManager>, ISaveAble
     {
         [SerializeField] private float _resourceUpdateTime;
         [SerializeField] private ResourceBundle _passiveIncome;
@@ -22,9 +23,18 @@ namespace Core.Resource
 
         public static event Action<ResourceBundle> ResourceUpdated;
 
+        public readonly static string WoodTextIcon = "<sprite=\"wood\" index=0>";
+        public readonly static string StoneTextIcon = "<sprite=\"stone\" index=0>";
+        public readonly static string GoldTextIcon = "<sprite=\"gold\" index=0>";
+        public readonly static string OreTextIcon = "<sprite=\"ore\" index=0>";
+        public readonly static string PeopleTextIcon = "<sprite=\"people\" index=0>";
+        
+        public ResourceBundle Current => _playerResources;
+
         protected override void Awake()
         {
             base.Awake();
+            SaveManager.Register("Resource Manager", this);
             _resourceUpdateCoroutine = StartCoroutine(UpdateResourcesOnTimer());
             _playerResources.People = _maxPopulation;
         }
@@ -38,6 +48,11 @@ namespace Core.Resource
                    _playerResources.Stone >= resources.Stone &&
                    _playerResources.Ore >= resources.Ore &&
                    _maxPopulation - _workingPeople >= resources.People;
+        }
+        
+        public bool HasEnoughResource(ResourceType ofType, int amount)
+        {
+            return _playerResources.Get(ofType) >= amount;
         }
 
         public void Spend(ResourceBundle resources)
@@ -101,6 +116,16 @@ namespace Core.Resource
 
                 ResourceUpdated?.Invoke(_playerResources);
             }
+        }
+
+        public object SaveData()
+        {
+            return _playerResources;
+        }
+
+        public void LoadData(object data)
+        {
+            _playerResources = (ResourceBundle)data;
         }
     }
 }

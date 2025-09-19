@@ -12,9 +12,10 @@ namespace UI {
         [SerializeField] private CanvasView[] _sceneHudCanvases;
 
         private Stack<CanvasView> _uiStack;
+        public bool HasOpenedUI { get; private set; }
 
         protected override void Awake() {
-            ToSingleton(false);
+            base.Awake();
             Initialize();
             SortCanvases();
             DisableCanvases();
@@ -24,6 +25,7 @@ namespace UI {
             if (_uiStack.Count > 0) _uiStack.Peek().Hide();
             var canvas = GetUICanvas<T>();
             _uiStack.Push(canvas);
+            HasOpenedUI = true;
             canvas.Show();
         }
 
@@ -33,16 +35,17 @@ namespace UI {
 
         public void ExitLastCanvas() {
             if (_uiStack.Count > 0) _uiStack.Pop().Hide();
-
             else _uiStack.Peek().Show();
+
+            if (_uiStack.Count <= 0) HasOpenedUI = false;
         }
 
         public void ExitHudCanvas<T>() where T : CanvasView {
             if (_hudCanvases.TryGetValue(typeof(T), out var hud)) hud.Hide();
         }
 
-        private T GetUICanvas<T>() where T : CanvasView => (T)_uiCanvases[typeof(T)];
-        private T GetHUDCanvas<T>() where T : CanvasView => (T)_hudCanvases[typeof(T)];
+        public T GetUICanvas<T>() where T : CanvasView => (T)_uiCanvases[typeof(T)];
+        public T GetHUDCanvas<T>() where T : CanvasView => (T)_hudCanvases[typeof(T)];
 
         private void SortCanvases() {
             foreach (var hudCanvas in _sceneHudCanvases) {
@@ -58,6 +61,7 @@ namespace UI {
             _hudCanvases = new Dictionary<Type, CanvasView>();
             _uiCanvases = new Dictionary<Type, CanvasView>();
             _uiStack = new Stack<CanvasView>();
+            HasOpenedUI = false;
         }
         
         private void DisableCanvases() {

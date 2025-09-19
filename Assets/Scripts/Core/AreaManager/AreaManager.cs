@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Core.Behaviour.Singleton;
+using Core.DataSave;
 using Player;
 using UnityEngine;
 
 namespace Core.AreaManager
 {
-    public class AreaManager : SingletonBase<AreaManager>
+    public class AreaManager : SingletonBase<AreaManager>, ISaveAble
     {
         [SerializeField] private float _topBoundsCorrection = -15f;
         [SerializeField] private Vector2 _chunkSize = new Vector2(30f, 30f);
@@ -15,6 +18,7 @@ namespace Core.AreaManager
         protected override void Awake()
         {
             base.Awake();
+            SaveManager.Register("Area Manager", this);
             UpdateCameraBoundForPlayer();
             _areas = new Dictionary<Vector2Int, BuildingArea>();
         }
@@ -57,6 +61,42 @@ namespace Core.AreaManager
                 _chunkBounds.z * _chunkSize.x + _chunkSize.x * 0.5f,
                 _chunkBounds.w * _chunkSize.y - _chunkSize.x * 0.5f);
             PlayerController.MoveBounds = newBounds;
+        }
+
+        public object SaveData()
+        {
+            var areas = new List<Vector2Int>();
+
+            foreach (var area in _areas)
+            {
+                if (area.Value.IsUnlocked) areas.Add(area.Key);
+            }
+            
+            return new ChunkCoordinateData(areas
+                .OrderBy(v => Mathf.Abs(v.x) + Mathf.Abs(v.y))
+                .ToArray());
+        }
+
+        public void LoadData(object data)
+        {
+            var coordinateData = (ChunkCoordinateData)data;
+            foreach (var coordinates in coordinateData.Coordinate)
+            {
+                _areas[coordinates].UnlockArea(out _);
+            }
+        }
+    }
+
+    [Serializable]
+    public class ChunkCoordinateData
+    {
+        [SerializeField] private Vector2Int[] _coordinate;
+
+        public Vector2Int[] Coordinate => _coordinate;
+            
+        public ChunkCoordinateData(Vector2Int[] coordinate)
+        {
+            _coordinate = coordinate;
         }
     }
 }

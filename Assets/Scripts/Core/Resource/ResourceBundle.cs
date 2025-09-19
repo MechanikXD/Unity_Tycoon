@@ -51,5 +51,17 @@ namespace Core.Resource
                 People = current.People - other.People,
             };
         }
+
+        public int Get(ResourceType ofType)
+        {
+            return ofType switch
+            {
+                ResourceType.Gold => _gold,
+                ResourceType.Wood => _wood,
+                ResourceType.Stone => _stone,
+                ResourceType.Ore => _ore,
+                _ => 0
+            };
+        }
     }
 }
