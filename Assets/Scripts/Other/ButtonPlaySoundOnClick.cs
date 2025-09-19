@@ -26,7 +26,7 @@ namespace Other
 
         private void PLaySound()
         {
-            AudioManager.Instance.PlaySound(_clip, transform.position, spread:0f);
+            AudioManager.Instance.PlaySound(_clip, transform.position, spatialBlend:0f);
         }
     }
 }

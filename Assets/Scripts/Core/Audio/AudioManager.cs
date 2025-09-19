@@ -34,7 +34,7 @@ namespace Core.Audio
             _sfxVolume = value;
         }
 
-        public void PlaySound(AudioClip clip, Vector3 position, float reach = 20, float pitch = 1f, float spread=1f)
+        public void PlaySound(AudioClip clip, Vector3 position, float reach = 20, float pitch = 1f, float spatialBlend=1f)
         {
             if (_localSourcePool.Peek().isPlaying)
             {
@@ -43,7 +43,7 @@ namespace Core.Audio
                 newSource.transform.position = position;
                 newSource.maxDistance = reach;
                 newSource.pitch = pitch;
-                newSource.spread = spread;
+                newSource.spatialBlend = spatialBlend;
                 newSource.volume = _sfxVolume;
 
                 newSource.Play();
@@ -57,7 +57,7 @@ namespace Core.Audio
             source.transform.position = position;
             source.maxDistance = reach;
             source.pitch = pitch;
-            source.spread = spread;
+            source.spatialBlend = spatialBlend;
             source.volume = _sfxVolume;
 
             source.Play();
