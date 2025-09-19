@@ -102,6 +102,8 @@ MonoBehaviour:
   _renderer: {fileID: 4607659502965471105}
   _notPlaceableColor: {r: 1, g: 0, b: 0, a: 1}
   _description: Here you can assemle some item that will (or not) help you!
+  _placeSound: {fileID: 8300000, guid: 9a5d7ec9d80d8f64cb9f20bd46b5417e, type: 3}
+  _destroySound: {fileID: 8300000, guid: 468844a776af28e40883e9f4f4c80d80, type: 3}
   _isSingleton: 0
   _halfHeight: 0
   _buildCost:

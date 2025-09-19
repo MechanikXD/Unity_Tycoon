@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8314385004332082846}
   - component: {fileID: 1517643242026330237}
   - component: {fileID: 489871156832297449}
+  - component: {fileID: 4484361068641061981}
   m_Layer: 5
   m_Name: Rect Button
   m_TagString: Untagged
@@ -122,6 +123,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4484361068641061981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944194240876906783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852516bf486c41a0b540165c849b0144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clip: {fileID: 8300000, guid: 5396c72627e2336468faa83f3b34fa59, type: 3}
 --- !u!1 &996432954948931260
 GameObject:
   m_ObjectHideFlags: 0
